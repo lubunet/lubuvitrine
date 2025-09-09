@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LUBU NET - Internet Ilimitada</title>
+  <style>
+    /* Reset básico */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Arial', sans-serif;
+    }
+
+    body {
+      background-color: #0b3d91;
+      color: #f0f0f0;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    a {
+      color: #ffcc00;
+      text-decoration: none;
+      transition: color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+    }
+
+    a:hover, a:focus {
+      color: #fff;
+      transform: translateY(-5px);
+      text-shadow: 0 4px 8px rgba(255, 204, 0, 0.7);
+      outline: none;
+    }
+
+    header {
+      background-color: #08306b;
+      color: white;
+      padding: 20px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      animation: fadeInDown 1s ease forwards;
+    }
+
+    header h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      cursor: default;
+    }
+
+    nav {
+      display: flex;
+      gap: 25px;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      font-weight: 600;
+      font-size: 1rem;
+      padding: 6px 10px;
+      border-radius: 4px;
+      background-color: transparent;
+      transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    nav a:hover, nav a:focus {
+      background-color: #ffcc00;
+      color: #08306b;
+      transform: translateY(-5px);
+      box-shadow: 0 8px 15px rgba(255, 204, 0, 0.7);
+      outline: none;
+    }
+
+    main {
+      flex: 1;
+      max-width: 1200px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+
+    section {
+      margin-bottom: 60px;
+      background: rgba(255 255 255 / 0.1);
+      padding: 25px 30px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+      backdrop-filter: blur(8px);
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    section h2 {
+      color: #ffcc00;
+      margin-bottom: 20px;
+      font-size: 2rem;
+      text-align: center;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
+    }
+
+    p, li {
+      font-size: 1.1rem;
+      margin-bottom: 12px;
+      color: #e0e0e0;
+    }
+
+    ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .planos {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: nowrap;
+    }
+
+    .plano {
+      background-color: rgba(20, 20, 35, 0.85);
+      border: 2px solid #a8c0ff;
+      border-radius: 15px;
+      padding: 25px 20px;
+      text-align: center;
+      color: #f0f0f0;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      flex: 1 1 0;
+      min-width: 220px;
+    }
+
+    .plano:hover, .plano:focus {
+      transform: translateY(-15px);
+      box-shadow: 0 18px 40px rgba(255, 204, 0, 0.8);
+      border-color: #ffcc00;
+      outline: none;
+      z-index: 10;
+    }
+
+    .plano h3 {
+      margin-bottom: 15px;
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+    }
+
+    .preco {
+      font-size: 2rem;
+      font-weight: 900;
+      color: #ffcc00;
+      margin-bottom: 20px;
+      text-shadow: 1px 1px 2px #0008;
+    }
+
+    .btn-ativar {
+      display: inline-block;
+      background: #ffcc00;
+      color: #08306b;
+      padding: 12px 28px;
+      border-radius: 30px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      margin-top: 15px;
+      box-shadow: 0 6px 15px rgba(255,204,0,0.6);
+      transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+      text-decoration: none;
+      user-select: none;
+      cursor: pointer;
+    }
+
+    .btn-ativar:hover, .btn-ativar:focus {
+      background-color: #e6b800;
+      color: #061f3a;
+      box-shadow: 0 12px 30px rgba(230,184,0,0.9);
+      transform: translateY(-7px);
+      outline: none;
+    }
+
+    /* Imagens decorativas */
+    .img-topo, .img-final, footer img {
+      width: 100%;
+      max-height: 300px;
+      object-fit: cover;
+      border-radius: 12px;
+      margin-bottom: 30px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 1s ease, transform 1s ease;
+    }
+
+    .img-topo.visible, .img-final.visible, footer img.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    footer {
+      background-color: #08306b;
+      color: #ccc;
+      text-align: center;
+      padding: 25px 15px;
+      font-size: 1rem;
+      box-shadow: 0 -4px 10px rgba(0,0,0,0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    footer img {
+      max-height: 80px;
+      margin-bottom: 15px;
+      filter: brightness(0.8);
+      transition: filter 0.3s ease;
+      cursor: pointer;
+    }
+
+    footer img:hover, footer img:focus {
+      filter: brightness(1);
+      outline: none;
+    }
+
+    /* Responsividade */
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        align-items: center;
+        padding: 10px 15px;
+      }
+
+      nav {
+        width: 100%;
+        justify-content: center;
+        margin-top: 10px;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      nav a {
+        font-size: 0.9rem;
+        padding: 6px 10px;
+        border-radius: 6px;
+        white-space: nowrap;
+        flex: none;
+      }
+
+      .planos {
+        flex-direction: column;
+        gap: 25px;
+      }
+
+      .plano {
+        width: 100%;
+        max-width: 100%;
+        height: auto !important;
+        flex: none;
+        margin: 0 auto;
+        padding: 25px 20px;
+        box-sizing: border-box;
+      }
+
+      .plano ul, .plano p {
+        white-space: normal;
+      }
+
+      .plano h3 {
+        font-size: 1.2rem;
+      }
+
+      .preco {
+        font-size: 1.5rem;
+      }
+
+      .btn-ativar {
+        font-size: 1rem;
+        padding: 10px 18px;
+        border-radius: 18px;
+        width: auto;
+        display: inline-block;
+      }
+
+      .img-topo, .img-final {
+        max-height: 200px;
+      }
+
+      footer {
+        text-align: center;
+        padding: 30px 20px;
+      }
+
+      footer img {
+        max-height: 60px;
+        margin-bottom: 15px;
+        display: inline-block;
+      }
+    }
+
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>LUBU NET</h1>
+    <nav>
+      <a href="#sobre">Sobre</a>
+      <a href="#planos">Planos</a>
+      <a href="#revenda">Revenda</a>
+      <a href="#app">App</a>
+      <a href="#contato">Contato</a>
+    </nav>
+  </header>
+
+  <main>
+    <img class="img-topo" src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1200&q=80" alt="Internet e tecnologia" />
+
+    <section id="sobre" tabindex="0">
+      <h2>Sobre</h2>
+      <p>Com mais de 5 anos de experiência no mercado digital, somos especializados na venda de contas premium, internet ilimitada via VPN, IPTV e ativação de aplicativos de IPTV em Smart TVs.</p>
+      <p>Nosso compromisso é oferecer serviços de qualidade, estáveis e acessíveis, garantindo praticidade e suporte personalizado a todos os nossos clientes. Atualmente, contamos com mais de 500 clientes ativos e satisfeitos, o que reforça a confiança e o reconhecimento do nosso trabalho.</p>
+      <p>Trabalhamos com as melhores soluções do mercado para entregar uma experiência completa de entretenimento e conectividade, direto na sua casa.</p>
+    </section>
+
+    <section id="planos" tabindex="0">
+      <h2>Planos de Internet Ilimitada</h2>
+      <div class="planos">
+        <div class="plano" tabindex="0" aria-label="Plano 1, R$10, 1 dispositivo, ligações Whats, jogos online, redes sociais, Netflix 4K">
+          <h3>Plano 1</h3>
+          <p class="preco">R$10</p>
+          <ul>
+            <li>1 Dispositivo</li>
+            <li>Ligações Whats</li>
+            <li>Jogos Online</li>
+            <li>Redes Sociais</li>
+            <li>Netflix 4K</li>
+          </ul>
+        </div>
+        <div class="plano" tabindex="0" aria-label="Plano 2, R$14, 2 dispositivos, ligações Whats, jogos online, redes sociais, Netflix 4K">
+          <h3>Plano 2</h3>
+          <p class="preco">R$14</p>
+          <ul>
+            <li>2 Dispositivos</li>
+            <li>Ligações Whats</li>
+            <li>Jogos Online</li>
+            <li>Redes Sociais</li>
+            <li>Netflix 4K</li>
+          </ul>
+        </div>
+        <div class="plano" tabindex="0" aria-label="Plano 3, R$18, 3 dispositivos, ligações Whats, jogos online, redes sociais, Netflix 4K">
+          <h3>Plano 3</h3>
+          <p class="preco">R$18</p>
+          <ul>
+            <li>3 Dispositivos</li>
+            <li>Ligações Whats</li>
+            <li>Jogos Online</li>
+            <li>Redes Sociais</li>
+            <li>Netflix 4K</li>
+          </ul>
+        </div>
+        <div class="plano" tabindex="0" aria-label="Plano 4, R$22, 4 dispositivos, ligações Whats, jogos online, redes sociais, Netflix 4K">
+          <h3>Plano 4</h3>
+          <p class="preco">R$22</p>
+          <ul>
+            <li>4 Dispositivos</li>
+            <li>Ligações Whats</li>
+            <li>Jogos Online</li>
+            <li>Redes Sociais</li>
+            <li>Netflix 4K</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="revenda" tabindex="0">
+      <h2>Revendedores</h2>
+      <div class="planos">
+        <div class="plano" tabindex="0" aria-label="Rev 1, 10 logins, grupo de suporte, aplicativo oficial, servidor brasileiro, Android e IOS">
+          <h3>Rev 1</h3>
+          <p>10 Logins</p>
+          <p>Grupo de Suporte</p>
+          <p>Aplicativo Oficial</p>
+          <p>Servidor Brasileiro</p>
+          <p>Android / IOS</p>
+        </div>
+        <div class="plano" tabindex="0" aria-label="Rev 2, 20 logins, grupo de suporte, aplicativo oficial, servidor brasileiro, Android e IOS">
+          <h3>Rev 2</h3>
+          <p>20 Logins</p>
+          <p>Grupo de Suporte</p>
+          <p>Aplicativo Oficial</p>
+          <p>Servidor Brasileiro</p>
+          <p>Android / IOS</p>
+        </div>
+        <div class="plano" tabindex="0" aria-label="Rev 3, 30 logins, grupo de suporte, aplicativo oficial, servidor brasileiro, Android e IOS">
+          <h3>Rev 3</h3>
+          <p>30 Logins</p>
+          <p>Grupo de Suporte</p>
+          <p>Aplicativo Oficial</p>
+          <p>Servidor Brasileiro</p>
+          <p>Android / IOS</p>
+        </div>
+        <div class="plano" tabindex="0" aria-label="Rev 4, 40 logins, grupo de suporte, aplicativo oficial, servidor brasileiro, Android e IOS">
+          <h3>Rev 4</h3>
+          <p>40 Logins</p>
+          <p>Grupo de Suporte</p>
+          <p>Aplicativo Oficial</p>
+          <p>Servidor Brasileiro</p>
+          <p>Android / IOS</p>
+        </div>
+      </div>
+    </section>
+
+    <img class="img-final" src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1200&q=80" alt="Tecnologia e conectividade" />
+
+    <section id="app" tabindex="0">
+      <h2>Ativação de App IPTV</h2>
+      <p>Ative seu aplicativo IPTV com segurança e liberte-se para uma experiência de visualização sem precedentes! Trabalhamos com players como Ibo Player, Bob Player, Vu Player, Ibo Pró, Duplex Play e outros.</p>
+      <p>Desfrute de uma infinidade de canais, séries e filmes com total liberdade, sem vínculo com playlists. Aproveite ao máximo sua TV via internet ativando seu aplicativo preferido agora mesmo!</p>
+      <a href="#" class="btn-ativar" aria-label="Ative seu aplicativo IPTV">Ative Seu App Aqui!</a>
+    </section>
+
+    <section id="contato" tabindex="0">
+      <h2>Contato</h2>
+      <p>Para suporte e informações, entre em contato conosco via WhatsApp ou e-mail.</p>
+      <p><strong>WhatsApp:</strong> (xx) xxxx-xxxx</p>
+      <p><strong>Email:</strong> contato@lubunet.com.br</p>
+    </section>
+  </main>
+
+  <footer>
+    <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=400&q=80" alt="Logo LUBU NET" tabindex="0" />
+    <p>© 2025 LUBU NET - Todos os direitos reservados.</p>
+  </footer>
+
+  <script>
+    function revealOnScroll() {
+      const elements = document.querySelectorAll('section, .img-topo, .img-final, footer img');
+      const windowHeight = window.innerHeight;
+      const revealPoint = 150;
+
+      elements.forEach(el => {
+        const elementTop = el.getBoundingClientRect().top;
+        if (elementTop < windowHeight - revealPoint) {
+          el.classList.add('visible');
+        }
+      });
+    }
+
+    window.addEventListener('scroll', revealOnScroll);
+    window.addEventListener('load', revealOnScroll);
+  </script>
+</body>
+</html>
